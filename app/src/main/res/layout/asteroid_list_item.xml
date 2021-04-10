@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="asteroid"
+            type="com.example.asteroidradar.Asteroid" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/asteroid_list_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_background"
+        android:minHeight="?attr/listPreferredItemHeight">
+
+
+        <TextView
+            android:id="@+id/asteroid_item_name_text"
+            style="@style/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/standard_padding"
+            android:paddingTop="@dimen/standard_padding"
+            android:paddingEnd="@dimen/standard_padding"
+            android:text="@{asteroid.codename}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="68347 (2001 KB67)" />
+
+        <TextView
+            android:id="@+id/asteroid_item_date_text"
+            style="@style/text_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/standard_padding"
+            android:paddingTop="@dimen/small_padding"
+            android:paddingEnd="@dimen/standard_padding"
+            android:paddingBottom="@dimen/standard_padding"
+            android:text="@{asteroid.closeApproachDate}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/asteroid_item_name_text"
+            tools:text="2020-02-08" />
+
+        <ImageView
+            android:id="@+id/asteroid_status_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/standard_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/asteroid_item_date_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/asteroid_item_name_text"
+            app:layout_constraintTop_toTopOf="@+id/asteroid_item_name_text"
+            app:srcCompat="@drawable/ic_status_normal"
+            app:statusIcon="@{asteroid.potentiallyHazardous}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
