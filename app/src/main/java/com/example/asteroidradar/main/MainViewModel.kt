@@ -9,33 +9,56 @@ import com.example.asteroidradar.api.AsteroidApi
 import com.example.asteroidradar.api.parseAsteroidsJsonResult
 import com.example.asteroidradar.Asteroid
 import com.example.asteroidradar.Constants.API_KEY
+import com.example.asteroidradar.PictureOfDay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
 
 enum class AsteroidApiStatus { LOADING, ERROR, DONE }
+enum class PictureOfTheDayApiStatus { LOADING, ERROR, DONE }
 
 class MainViewModel : ViewModel() {
 
     private val _status = MutableLiveData<AsteroidApiStatus>()
-
-    val status : LiveData<AsteroidApiStatus>
+    val status: LiveData<AsteroidApiStatus>
         get() = _status
 
 
-    private val  _asteroids = MutableLiveData<List<Asteroid>>()
+    private val _pictureStatus = MutableLiveData<PictureOfTheDayApiStatus>()
+    val pictureStatus: LiveData<PictureOfTheDayApiStatus>
+        get() = _pictureStatus
 
-    val asteroids : LiveData<List<Asteroid>>
+    private val _asteroids = MutableLiveData<List<Asteroid>>()
+    val asteroids: LiveData<List<Asteroid>>
         get() = _asteroids
+
+    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
+    val pictureOfDay: LiveData<PictureOfDay>
+        get() = _pictureOfDay
 
 
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid?>()
 
-    val navigateToSelectedAsteroid : LiveData<Asteroid?>
+    val navigateToSelectedAsteroid: LiveData<Asteroid?>
         get() = _navigateToSelectedAsteroid
 
     init {
         getAsteroidsList()
+        getPictureOfTheDay()
+    }
+
+    private fun getPictureOfTheDay() {
+        viewModelScope.launch {
+            _pictureStatus.value = PictureOfTheDayApiStatus.LOADING
+            try {
+                val response =  AsteroidApi.retrofitMoshiService.getNASAImageOfTheDay(API_KEY)
+                Log.i ("retrofitMoshiService", response.toString())
+                _pictureOfDay.value = response
+                _pictureStatus.value = PictureOfTheDayApiStatus.DONE
+            } catch (e: Exception) {
+                _pictureStatus.value = PictureOfTheDayApiStatus.ERROR
+            }
+        }
     }
 
     private fun getAsteroidsList() {
