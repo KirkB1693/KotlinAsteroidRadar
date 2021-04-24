@@ -37,7 +37,7 @@ private val retrofit_moshi = Retrofit.Builder()
 
 interface AsteroidApiService {
     @GET("neo/rest/v1/feed")
-    suspend fun getAsteroids(@Query("api_key") apiKey: String): String
+    suspend fun getAsteroids(@Query("api_key") apiKey: String, @Query("start_date") startDate: String): String
 
     @GET("planetary/apod")
     suspend fun getNASAImageOfTheDay(@Query("api_key") apiKey: String): PictureOfDay

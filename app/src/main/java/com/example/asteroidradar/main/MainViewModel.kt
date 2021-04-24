@@ -1,41 +1,30 @@
 package com.example.asteroidradar.main
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.asteroidradar.api.AsteroidApi
 import com.example.asteroidradar.api.parseAsteroidsJsonResult
 import com.example.asteroidradar.Asteroid
 import com.example.asteroidradar.Constants.API_KEY
 import com.example.asteroidradar.PictureOfDay
+import com.example.asteroidradar.database.getDatabase
+import com.example.asteroidradar.repository.AsteroidsRepository
+import com.example.asteroidradar.repository.PictureOfTheDayRepository
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
 
 enum class AsteroidApiStatus { LOADING, ERROR, DONE }
-enum class PictureOfTheDayApiStatus { LOADING, ERROR, DONE }
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val database = getDatabase(application)
+    private val asteroidsRepository = AsteroidsRepository(database, application)
+    private val pictureOfTheDayRepository = PictureOfTheDayRepository(application)
 
     private val _status = MutableLiveData<AsteroidApiStatus>()
     val status: LiveData<AsteroidApiStatus>
         get() = _status
-
-
-    private val _pictureStatus = MutableLiveData<PictureOfTheDayApiStatus>()
-    val pictureStatus: LiveData<PictureOfTheDayApiStatus>
-        get() = _pictureStatus
-
-    private val _asteroids = MutableLiveData<List<Asteroid>>()
-    val asteroids: LiveData<List<Asteroid>>
-        get() = _asteroids
-
-    private val _pictureOfDay = MutableLiveData<PictureOfDay>()
-    val pictureOfDay: LiveData<PictureOfDay>
-        get() = _pictureOfDay
-
 
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid?>()
 
@@ -43,38 +32,17 @@ class MainViewModel : ViewModel() {
         get() = _navigateToSelectedAsteroid
 
     init {
-        getAsteroidsList()
-        getPictureOfTheDay()
-    }
-
-    private fun getPictureOfTheDay() {
+        _status.value = AsteroidApiStatus.LOADING
         viewModelScope.launch {
-            _pictureStatus.value = PictureOfTheDayApiStatus.LOADING
-            try {
-                val response =  AsteroidApi.retrofitMoshiService.getNASAImageOfTheDay(API_KEY)
-                Log.i ("retrofitMoshiService", response.toString())
-                _pictureOfDay.value = response
-                _pictureStatus.value = PictureOfTheDayApiStatus.DONE
-            } catch (e: Exception) {
-                _pictureStatus.value = PictureOfTheDayApiStatus.ERROR
-            }
+            pictureOfTheDayRepository.refreshPictureOfTheDay()
+            asteroidsRepository.refreshAsteroids()
+            _status.value = AsteroidApiStatus.DONE
         }
     }
 
-    private fun getAsteroidsList() {
-        viewModelScope.launch {
-            _status.value = AsteroidApiStatus.LOADING
-            try {
-                val response = AsteroidApi.retrofitScalarService.getAsteroids(API_KEY)
-                Log.i("retrofitScalarService", response)
-                _asteroids.value = parseAsteroidsJsonResult(JSONObject(response)).toList()
-                _status.value = AsteroidApiStatus.DONE
-            } catch (e: Exception) {
-                _status.value = AsteroidApiStatus.ERROR
-                _asteroids.value = ArrayList()
-            }
-        }
-    }
+    var asteroidsList = asteroidsRepository.asteroids
+    val pictureOfTheDay = pictureOfTheDayRepository.pictureOfDay
+    val pictureOfTheDayDrawablePath = pictureOfTheDayRepository.pictureOfTheDayDrawablePath
 
 
     fun displayAsteroidDetails(asteroid: Asteroid) {
@@ -84,4 +52,18 @@ class MainViewModel : ViewModel() {
     fun displayAsteroidDetailsComplete() {
         _navigateToSelectedAsteroid.value = null
     }
+
+    fun showWeek() {
+        asteroidsList = asteroidsRepository.asteroidsForWeek
+    }
+
+    fun showToday() {
+        asteroidsList = asteroidsRepository.asteroidsForToday
+    }
+
+    fun showAllSaved() {
+        asteroidsList = asteroidsRepository.asteroidsAllSaved
+    }
+
+
 }

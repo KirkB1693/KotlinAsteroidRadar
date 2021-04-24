@@ -15,16 +15,20 @@ class MainFragment : Fragment() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
+    private val adapter = AsteroidListAdapter(AsteroidListAdapter.OnClickListener {
+        viewModel.displayAsteroidDetails(it)
+    })
+
+    private lateinit var binding: FragmentMainBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentMainBinding.inflate(inflater)
+        binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
 
-        binding.asteroidRecycler.adapter = AsteroidListAdapter(AsteroidListAdapter.OnClickListener {
-            viewModel.displayAsteroidDetails(it)
-        })
+        binding.asteroidRecycler.adapter = adapter
 
         viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer {
             if ( null != it ) {
@@ -35,9 +39,17 @@ class MainFragment : Fragment() {
             }
         })
 
+        observeAsteroids()
+
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private fun observeAsteroids() {
+        viewModel.asteroidsList.observe(viewLifecycleOwner, Observer { asteroids ->
+        adapter.submitList(asteroids)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -46,6 +58,23 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.show_week_menu -> {
+                viewModel.showWeek()
+                observeAsteroids()
+                return true
+            }
+            R.id.show_today_menu -> {
+                viewModel.showToday()
+                observeAsteroids()
+                return true
+            }
+            R.id.show_all_saved_menu -> {
+                viewModel.showAllSaved()
+                observeAsteroids()
+                return true
+            }
+        }
         return true
     }
 }

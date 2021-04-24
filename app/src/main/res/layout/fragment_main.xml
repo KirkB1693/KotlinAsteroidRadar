@@ -28,9 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:contentDescription="@{}"
+                android:contentDescription="@{viewModel.pictureOfTheDay.title}"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{viewModel.pictureOfDay}" />
+                app:imagePath="@{viewModel.pictureOfTheDayDrawablePath}" />
 
             <TextView
                 android:id="@+id/textView"
@@ -39,20 +39,20 @@
                 android:padding="16dp"
                 android:layout_gravity="bottom"
                 android:background="#55010613"
-                android:text="@{viewModel.pictureOfDay.title}"
+                android:text="@{viewModel.pictureOfTheDay.title}"
                 style="@style/text_title" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/asteroid_recycler"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day_layout"
-            app:listData="@{viewModel.asteroids}"
+            app:listData="@{viewModel.asteroidsList}"
             tools:listitem="@layout/asteroid_list_item" />
 
         <ProgressBar
