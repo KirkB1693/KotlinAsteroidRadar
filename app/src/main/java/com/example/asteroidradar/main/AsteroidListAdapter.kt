@@ -1,12 +1,7 @@
 package com.example.asteroidradar.main
 
-import android.app.ActionBar
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +9,7 @@ import com.example.asteroidradar.Asteroid
 import com.example.asteroidradar.R
 import com.example.asteroidradar.databinding.AsteroidListItemBinding
 
-class AsteroidListAdapter(val onClickListener: OnClickListener) : ListAdapter<Asteroid, AsteroidListAdapter.AsteroidViewHolder>(DiffCallback){
+class AsteroidListAdapter(private val onClickListener: OnClickListener) : ListAdapter<Asteroid, AsteroidListAdapter.AsteroidViewHolder>(DiffCallback){
 
 
     class AsteroidViewHolder(private var binding: AsteroidListItemBinding):
@@ -29,11 +24,7 @@ class AsteroidListAdapter(val onClickListener: OnClickListener) : ListAdapter<As
             }
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
-            // Get a handler that can be used to post to the main thread
-
             binding.executePendingBindings()
-
-
         }
     }
 
@@ -69,9 +60,6 @@ class AsteroidListAdapter(val onClickListener: OnClickListener) : ListAdapter<As
         holder.bind(asteroid)
     }
 
-    override fun getItemCount(): Int {
-        return super.getItemCount()
-    }
 
     /**
      * Custom listener that handles clicks on [RecyclerView] items.  Passes the [Asteroid]

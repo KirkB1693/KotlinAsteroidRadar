@@ -1,19 +1,12 @@
 package com.example.asteroidradar.main
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.asteroidradar.api.AsteroidApi
-import com.example.asteroidradar.api.parseAsteroidsJsonResult
 import com.example.asteroidradar.Asteroid
-import com.example.asteroidradar.Constants.API_KEY
-import com.example.asteroidradar.PictureOfDay
 import com.example.asteroidradar.database.getDatabase
 import com.example.asteroidradar.repository.AsteroidsRepository
 import com.example.asteroidradar.repository.PictureOfTheDayRepository
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.lang.Exception
 
 enum class AsteroidApiStatus { LOADING, ERROR, DONE }
 

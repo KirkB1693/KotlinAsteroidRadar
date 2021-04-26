@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.asteroidradar.Asteroid
-import com.example.asteroidradar.Constants
 import com.example.asteroidradar.Constants.API_KEY
 import com.example.asteroidradar.Constants.API_QUERY_DATE_FORMAT
 import com.example.asteroidradar.api.AsteroidApi
@@ -69,7 +68,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase, private val c
             withContext(Dispatchers.IO) {
                 val calendar = Calendar.getInstance()
                 val currentTime = calendar.time
-                val dateFormat = SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.US)
+                val dateFormat = SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.getDefault())
                 val todayFormatted = dateFormat.format(currentTime)
                 val asteroidList = parseAsteroidsJsonResult(
                     JSONObject(

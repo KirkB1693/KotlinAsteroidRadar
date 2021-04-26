@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, {
             if ( null != it ) {
                 // Must find the NavController from the Fragment
                 this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
@@ -47,7 +47,7 @@ class MainFragment : Fragment() {
     }
 
     private fun observeAsteroids() {
-        viewModel.asteroidsList.observe(viewLifecycleOwner, Observer { asteroids ->
+        viewModel.asteroidsList.observe(viewLifecycleOwner, { asteroids ->
         adapter.submitList(asteroids)
         })
     }
