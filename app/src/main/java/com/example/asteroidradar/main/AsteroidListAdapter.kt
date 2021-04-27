@@ -15,13 +15,7 @@ class AsteroidListAdapter(private val onClickListener: OnClickListener) : ListAd
     class AsteroidViewHolder(private var binding: AsteroidListItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(asteroid: Asteroid) {
-            binding.asteroidItemDateText.text = asteroid.closeApproachDate
-            binding.asteroidItemNameText.text = asteroid.codename
-            if (asteroid.isPotentiallyHazardous) {
-                binding.asteroidStatusImage.setImageResource(R.drawable.ic_status_potentially_hazardous)
-            } else {
-                binding.asteroidStatusImage.setImageResource(R.drawable.ic_status_normal)
-            }
+            binding.asteroid = asteroid
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -34,11 +28,11 @@ class AsteroidListAdapter(private val onClickListener: OnClickListener) : ListAd
      */
     companion object DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
         override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
     }
 
