@@ -46,7 +46,7 @@ class AsteroidListAdapter(private val onClickListener: OnClickListener) : ListAd
      * Create new [RecyclerView] item views (invoked by the layout manager)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidViewHolder {
-        return AsteroidViewHolder(AsteroidListItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return AsteroidViewHolder(AsteroidListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     /**
