@@ -3,6 +3,7 @@ package com.example.asteroidradar.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import retrofit2.http.DELETE
 
 private lateinit var INSTANCE : AsteroidsDatabase
 
@@ -22,6 +23,9 @@ interface AsteroidDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroids : DatabaseAsteroid)
+
+    @Query("DELETE FROM databaseasteroid WHERE closeApproachDate = :yesterday")
+    fun deletePreviousDayAsteroids(yesterday : String)
 }
 
 @Database(entities = [DatabaseAsteroid::class], version = 1)

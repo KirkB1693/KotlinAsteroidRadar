@@ -22,8 +22,8 @@
             android:id="@+id/asteroid_list_item_textview_wrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="8">
+            android:layout_weight="9"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/asteroid_item_name_text"
@@ -53,11 +53,11 @@
             android:id="@+id/asteroid_status_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/standard_margin"
             android:layout_gravity="end|center_vertical"
+            android:layout_margin="@dimen/standard_margin"
+            android:layout_weight="1"
             app:srcCompat="@drawable/ic_status_normal"
-            app:statusIcon="@{asteroid.potentiallyHazardous}"
-            android:layout_weight="2"/>
+            app:statusIcon="@{asteroid.potentiallyHazardous}" />
 
     </LinearLayout>
 </layout>

@@ -33,6 +33,7 @@ class PictureOfTheDayRepository(private val application: Application) {
         )
     private val cw = ContextWrapper(application.applicationContext)
     private val path = cw.getDir("images", MODE_PRIVATE).toString() + "pictureoftheday.jpg"
+
     private val _pictureOfTheDayDrawablePath = MutableLiveData<String>()
     val pictureOfTheDayDrawablePath: LiveData<String>
         get() = _pictureOfTheDayDrawablePath

@@ -1,5 +1,6 @@
 package com.example.asteroidradar.main
 
+import android.app.Application
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.asteroidradar.R
 import com.example.asteroidradar.databinding.FragmentMainBinding
+import com.example.asteroidradar.repository.PictureOfTheDayRepository
 
 class MainFragment : Fragment() {
 

@@ -21,4 +21,9 @@
     <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
     <string name="image_of_the_day_content_desciption">NASA image of the day</string>
     <string name="picture_preference_file_key">pictureOfTheDay</string>
+    <string name="icon_safe_content_description">Asteroid is not hazardous icon</string>
+    <string name="icon_hazardous_content_description">Asteroid is potentially hazardous icon</string>
+    <string name="status_image_safe_content_description">Asteroid is not hazardous image</string>
+    <string name="status_image_hazardous_content_description">Asteroid is potentially hazardous image</string>
+    <string name="help_button_content_description">Definition of Astronomical Unit (au)</string>
 </resources>

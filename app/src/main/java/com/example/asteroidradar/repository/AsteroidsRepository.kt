@@ -82,4 +82,16 @@ class AsteroidsRepository(private val database: AsteroidsDatabase, private val c
             Log.i("AsteroidsRepository", "No internet available, asteroids not updated")
         }
     }
+
+    suspend fun deletePreviousDayAsteroids() {
+        withContext(Dispatchers.IO) {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_YEAR, -1)
+            val yesterday = calendar.time
+            val dateFormat = SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.getDefault())
+            val yesterdayFormatted = dateFormat.format(yesterday)
+            database.asteroidDao.deletePreviousDayAsteroids(yesterdayFormatted)
+            Log.i("AsteroidsRepository", "Previous day asteroids deleted from database")
+        }
+    }
 }
