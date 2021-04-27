@@ -23,14 +23,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <!-- Content description for this ImageView is set dynamically through binding adapter imageContentDescription  -->
             <ImageView
                 android:id="@+id/activity_main_image_of_the_day"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:contentDescription="@{viewModel.pictureOfTheDay.title}"
+                app:imageContentDescription="@{viewModel.pictureOfTheDay}"
                 android:scaleType="centerCrop"
-                app:imagePath="@{viewModel.pictureOfTheDayDrawablePath}" />
+                app:imagePath="@{viewModel.pictureOfTheDayDrawablePath}"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textView"

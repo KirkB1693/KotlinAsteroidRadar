@@ -3,7 +3,6 @@ package com.example.asteroidradar.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import retrofit2.http.DELETE
 
 private lateinit var INSTANCE : AsteroidsDatabase
 

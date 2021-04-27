@@ -1,11 +1,8 @@
 package com.example.asteroidradar.database
 
-import androidx.lifecycle.Transformations.map
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.asteroidradar.Asteroid
-import com.example.asteroidradar.PictureOfDay
-import com.squareup.moshi.Json
 
 @Entity
 data class DatabaseAsteroid constructor(

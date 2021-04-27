@@ -49,6 +49,7 @@
                 tools:text="2020-02-08" />
         </LinearLayout>
 
+        <!-- Content description for this ImageView is set dynamically through binding adapter statusIcon  -->
         <ImageView
             android:id="@+id/asteroid_status_image"
             android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
             android:layout_margin="@dimen/standard_margin"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_status_normal"
-            app:statusIcon="@{asteroid.potentiallyHazardous}" />
+            app:statusIcon="@{asteroid.potentiallyHazardous}"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 </layout>
